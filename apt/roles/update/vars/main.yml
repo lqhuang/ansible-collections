@@ -1,0 +1,7 @@
+---
+apt_common_upgrade: true
+apt_common_upgrade_mode: full
+apt_common_packages: []
+apt_common_install_recommends: false
+apt_common_autoremove: true
+apt_common_autoclean: true

@@ -1,0 +1,24 @@
+---
+- name: Update apt cache and upgrade packages when requested
+  ansible.builtin.apt:
+    update_cache: true
+    upgrade: "{{ apt_common_upgrade_mode }}"
+  when: apt_common_upgrade | bool
+
+- name: Install baseline packages when provided
+  ansible.builtin.apt:
+    name: "{{ apt_common_packages }}"
+    state: present
+    install_recommends: "{{ apt_common_install_recommends }}"
+  when: apt_common_packages | length > 0
+
+- name: Remove obsolete dependencies when enabled
+  ansible.builtin.apt:
+    autoremove: true
+    purge: true
+  when: apt_common_autoremove | bool
+
+- name: Clean apt cache when enabled
+  ansible.builtin.apt:
+    autoclean: true
+  when: apt_common_autoclean | bool

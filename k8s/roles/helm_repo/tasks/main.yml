@@ -1,0 +1,8 @@
+---
+- name: Configure requested Helm repositories
+  kubernetes.core.helm_repository:
+    repo_name: "{{ item.name }}"
+    repo_url: "{{ item.url }}"
+    repo_state: "{{ item.state | default(helm_repos_state) }}"
+  loop: "{{ helm_repos_entries }}"
+  when: helm_repos_entries | length > 0
