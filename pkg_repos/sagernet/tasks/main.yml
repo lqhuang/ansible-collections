@@ -1,0 +1,26 @@
+---
+# - name: Download SagerNet GPG key
+#   ansible.builtin.apt_key:
+#     url: https://sing-box.app/gpg.key
+#     keyring: /etc/apt/keyrings/sagernet.asc
+
+# - name: Add SagerNet repository
+#   ansible.builtin.apt_repository:
+#     # ansible_architecture will output x86_64
+#     # https://stackoverflow.com/questions/44713880/how-do-i-make-decision-based-on-arch-in-ansible-playbooks
+#     # repo: "deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *"
+#     # https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_vars_facts.html
+#     repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/sagernet.asc] https://deb.sagernet.org/ * *"
+#     state: present
+#     filename: sagernet
+#     update_cache: true
+
+- name: Add SagerNet repository in deb822 format
+  ansible.builtin.deb822_repository:
+    allow_downgrade_to_insecure: false
+    allow_insecure: false
+    enabled: true
+    signed_by: https://sing-box.app/gpg.key
+    name: sagernet
+    state: present
+    uris: https://deb.sagernet.org/
