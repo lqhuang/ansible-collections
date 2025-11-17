@@ -1,0 +1,25 @@
+---
+- name: Ensure Microsoft keyring directory exists
+  ansible.builtin.file:
+    path: "{{ vscode_keyring_path | dirname }}"
+    state: directory
+    mode: "0755"
+
+- name: Add Microsoft repository GPG key
+  ansible.builtin.apt_key:
+    url: "{{ vscode_key_url }}"
+    keyring: "{{ vscode_keyring_path }}"
+
+- name: Configure Visual Studio Code APT repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [arch={{ vscode_repo_arches | join(',') }} signed-by={{ vscode_keyring_path }}]
+      {{ vscode_repo_url }} {{ vscode_repo_components | join(' ') }}
+    filename: vscode
+    state: present
+    update_cache: true
+
+- name: Install Visual Studio Code packages
+  ansible.builtin.apt:
+    name: "{{ vscode_packages }}"
+    state: present

@@ -1,0 +1,25 @@
+---
+- name: Ensure Cloudflare keyring directory exists
+  ansible.builtin.file:
+    path: "{{ cloudflared_keyring_path | dirname }}"
+    state: directory
+    mode: "0755"
+
+- name: Add Cloudflare repository GPG key
+  ansible.builtin.apt_key:
+    url: "{{ cloudflared_key_url }}"
+    keyring: "{{ cloudflared_keyring_path }}"
+
+- name: Configure Cloudflare APT repository
+  ansible.builtin.apt_repository:
+    repo: >-
+      deb [signed-by={{ cloudflared_keyring_path }}] {{ cloudflared_repo_url }}
+      {{ cloudflared_distribution }} main
+    filename: cloudflared
+    state: present
+    update_cache: true
+
+- name: Install Cloudflare packages
+  ansible.builtin.apt:
+    name: "{{ cloudflared_packages }}"
+    state: present

@@ -1,0 +1,7 @@
+---
+cloudflare_repo_url: https://pkg.cloudflare.com/cloudflared
+cloudflare_distribution: jammy
+cloudflare_key_url: https://pkg.cloudflare.com/cloudflare-main.gpg
+cloudflare_keyring_path: /etc/apt/keyrings/cloudflare-main.gpg
+cloudflare_packages:
+  - cloudflared

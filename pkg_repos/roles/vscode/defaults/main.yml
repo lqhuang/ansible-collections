@@ -1,0 +1,13 @@
+---
+vscode_repo_url: https://packages.microsoft.com/repos/code
+vscode_key_url: https://packages.microsoft.com/keys/microsoft.asc
+vscode_keyring_path: /etc/apt/keyrings/packages.microsoft.gpg
+vscode_repo_arches:
+  - amd64
+  - arm64
+  - armhf
+vscode_repo_components:
+  - stable
+  - main
+vscode_packages:
+  - code

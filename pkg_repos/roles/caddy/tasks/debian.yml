@@ -1,0 +1,15 @@
+---
+- name: Add caddy repository
+  ansible.builtin.deb822_repository:
+    name: caddy
+    uris: https://dl.cloudsmith.io/public/caddy/stable/deb/debian
+    signed_by: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+    components: "[main]"
+    suites: "[any-version]"
+    types: "[deb]"
+    state: present
+    enabled: true
+
+- name: Run the equivalent of "apt-get update"
+  ansible.builtin.apt:
+    update_cache: true

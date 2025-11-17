@@ -1,0 +1,16 @@
+---
+hashicorp_repo_url: https://apt.releases.hashicorp.com
+hashicorp_key_url: https://apt.releases.hashicorp.com/gpg
+hashicorp_keyring_path: /usr/share/keyrings/hashicorp-archive-keyring.gpg
+hashicorp_repo_distribution: "{{ 'bookworm' if ansible_distribution_release == 'trixie' else ansible_distribution_release }}"
+hashicorp_repo_components:
+  - main
+hashicorp_packages:
+  - boundary
+  - consul
+  - nomad
+  - packer
+  - terraform
+  - vagrant
+  - vault
+  - waypoint
