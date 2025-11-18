@@ -1,0 +1,6 @@
+---
+- name: Ensure apt minimal packages are installed
+  ansible.builtin.apt:
+    name: "{{ preset_packages_map[preset_name] }}"
+    state: present
+    upgrade: true

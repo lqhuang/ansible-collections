@@ -1,0 +1,40 @@
+---
+- name: Check input variables
+  ansible.builtin.assert:
+    that:
+      - hashicorp_packages_include | length > 0
+      - hashicorp_packages_exclude | length > 0
+    fail_msg: >-
+      You cannot specify non empty arry for
+      both `hashicorp_packages_include` and `hashicorp_packages_exclude`  variable.
+
+- name: Install HashiCorp full packages - {{ hashicorp_packages | join(', ') }}
+  when:
+    - hashicorp_packages_include | length == 0
+    - hashicorp_packages_exclude | length == 0
+  ansible.builtin.apt:
+    name: "{{ hashicorp_packages }}"
+    clean: true
+    state: present
+
+- name: >-
+    Install HashiCorp packages -
+    {{ hashicorp_packages | intersect(hashicorp_packages_include) | join(', ') }}
+  when:
+    - hashicorp_packages_include | length > 0
+    - hashicorp_packages_exclude | length == 0
+  ansible.builtin.apt:
+    name: "{{ hashicorp_packages | intersect(hashicorp_packages_include) }}"
+    clean: true
+    state: present
+
+- name: >-
+    Install HashiCorp packages -
+    {{ hashicorp_packages | difference(hashicorp_packages_include) | join(', ') }}
+  when:
+    - hashicorp_packages_include | length == 0
+    - hashicorp_packages_exclude | length > 0
+  ansible.builtin.apt:
+    name: "{{ hashicorp_packages | difference(hashicorp_packages_exclude) }}"
+    clean: true
+    state: present

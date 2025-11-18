@@ -1,9 +1,0 @@
----
-argument_specs:
-  main:
-    author:
-      - Lanqing Huang
-    options:
-      singbox_beta:
-        type: bool
-        default: false

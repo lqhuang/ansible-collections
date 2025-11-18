@@ -1,25 +1,24 @@
 ---
-- name: Ensure HashiCorp keyring directory exists
-  ansible.builtin.file:
-    path: "{{ hashicorp_keyring_path | dirname }}"
-    state: directory
-    mode: "0755"
-
-- name: Add HashiCorp repository GPG key
-  ansible.builtin.apt_key:
-    url: "{{ hashicorp_key_url }}"
-    keyring: "{{ hashicorp_keyring_path }}"
-
-- name: Configure HashiCorp APT repository
-  ansible.builtin.apt_repository:
-    repo: >-
-      deb [signed-by={{ hashicorp_keyring_path }}] {{ hashicorp_repo_url }}
-      {{ hashicorp_repo_distribution }} {{ hashicorp_repo_components | join(' ') }}
-    filename: hashicorp
+- name: Add HashiCorp repository in deb822 format
+  ansible.builtin.deb822_repository:
+    name: hashicorp
     state: present
-    update_cache: true
+    enabled: true
+    signed_by: https://apt.releases.hashicorp.com/gpg
+    uris: https://apt.releases.hashicorp.com/
+    types: deb
+    components: main
+    suites: "*" # "{{ ansible_distribution_release | lower }}"
+    architectures: "{{ dpkg_architecture_map[ansible_architecture] }}"
+    allow_insecure: false
+    allow_downgrade_to_insecure: false
+  vars:
+    dpkg_architecture_map:
+      x86_64: amd64
+      amd64: amd64
+      aarch64: arm64
+      arm64: arm64
 
 - name: Install HashiCorp packages
   ansible.builtin.apt:
-    name: "{{ hashicorp_packages }}"
-    state: present
+    update_cache: true

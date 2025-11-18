@@ -1,6 +1,6 @@
 ---
 - name: Add individual cloudsmith repo for Caddy
-  ansible.builtin.import_role:
+  ansible.builtin.include_role:
     name: lqhuang.pkg_repos.caddy
   when: caddy_cloudsmith_repo
 

@@ -3,3 +3,10 @@ allow_duplicates: false
 
 dependencies:
   - lqhuang.pkg_repos.sagernet
+
+argument_specs:
+  main:
+    options:
+      singbox_beta:
+        type: bool
+        default: false

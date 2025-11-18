@@ -1,10 +1,8 @@
 ---
 argument_specs:
   main:
-    author:
-      - Lanqing Huang
     options:
       upgrade_mode:
         type: str
         choices: [dist, full, "no", safe, "yes"]
-        default: yes
+        default: "yes"

@@ -1,0 +1,19 @@
+---
+allow_duplicates: false
+
+dependencies:
+  - lqhuang.pkg_repos.hashicorp
+
+argument_specs:
+  main:
+    author:
+      - Lanqing Huang
+    options:
+      hashicorp_packages_include:
+        type: list
+        elements: str
+        default: []
+      hashicorp_packages_exclude:
+        type: list
+        elements: str
+        default: []

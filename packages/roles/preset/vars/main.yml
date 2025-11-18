@@ -1,0 +1,50 @@
+_common:
+  - apt-transport-https
+  - debian-keyring
+  - debian-archive-keyring
+  - unattended-upgrades
+  - lsb-release
+  - gnupg2
+  - curl
+  - wget
+
+  # - firmware-misc-nonfree
+  # - firmware-linux-nonfree
+  # - apt-listbugs
+  # testing
+  # - apt-listchanges
+
+_default:
+  - acl
+  - knot-dnsutils
+  - inetutils-ping # iputils-ping
+  - bash-completion
+  - sudo
+  - apt-file
+
+  - zip
+  - unzip
+  - zstd
+  - xz-utils
+  - zlib1g
+  - bzip2
+
+  - sed
+  - zsh
+  - git
+  - htop
+  - vim
+  - tmux
+  - tree
+  - rsync
+
+  # - python3
+  # - python3-venv
+
+_optimal:
+  - ripgrep
+  - fd-find
+  - fzf
+
+_tt:
+  - binutils
