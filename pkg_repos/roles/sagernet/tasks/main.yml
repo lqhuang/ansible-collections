@@ -17,10 +17,18 @@
 
 - name: Add SagerNet repository in deb822 format
   ansible.builtin.deb822_repository:
-    allow_downgrade_to_insecure: false
-    allow_insecure: false
-    enabled: true
-    signed_by: https://sing-box.app/gpg.key
     name: sagernet
     state: present
+    enabled: true
+    signed_by: https://sing-box.app/gpg.key
     uris: https://deb.sagernet.org/
+    types: deb
+    components: "*"
+    suites: "*"
+    allow_insecure: false
+    allow_downgrade_to_insecure: false
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: sagernet_update_cache

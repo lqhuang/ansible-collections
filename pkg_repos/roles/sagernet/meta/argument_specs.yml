@@ -1,0 +1,7 @@
+---
+argument_specs:
+  main:
+    options:
+      sagernet_update_cache:
+        type: bool
+        default: true

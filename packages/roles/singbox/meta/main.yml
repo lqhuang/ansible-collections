@@ -3,4 +3,3 @@ allow_duplicates: false
 
 dependencies:
   - lqhuang.pkg_repos.sagernet
-  # - lqhuang.apt.update_cache

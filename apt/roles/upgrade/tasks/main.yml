@@ -1,0 +1,4 @@
+---
+- name: Upgrade all apt packages in mode={{ upgrade_mode }}
+  ansible.builtin.apt:
+    upgrade: "{{ upgrade_mode }}"

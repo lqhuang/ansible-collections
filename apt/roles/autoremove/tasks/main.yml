@@ -1,0 +1,4 @@
+---
+- name: Remove all unused apt packages
+  ansible.builtin.apt:
+    autoremove: true
