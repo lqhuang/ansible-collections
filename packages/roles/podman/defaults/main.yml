@@ -1,0 +1,3 @@
+---
+podman_install_podman_docker: false
+podman_install_podman_compose: false

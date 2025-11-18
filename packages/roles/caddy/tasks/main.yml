@@ -1,0 +1,12 @@
+---
+- name: Add individual cloudsmith repo for Caddy
+  ansible.builtin.import_role:
+    name: lqhuang.pkg_repos.caddy
+  when: caddy_cloudsmith_repo
+
+- name: Install Caddy
+  ansible.builtin.package:
+    name:
+      - caddy
+    state: present
+  # notify: restart caddy

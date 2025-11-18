@@ -20,6 +20,6 @@
     update_cache: true
 
 - name: Install Visual Studio Code packages
-  ansible.builtin.apt:
+  ansible.builtin.package:
     name: "{{ vscode_packages }}"
     state: present

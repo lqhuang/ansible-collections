@@ -1,15 +1,12 @@
 ---
 # tasks file for caddy
 
-- ansible.builtin.include_tasks: fedora.yml
-  when: ansible_os_family == 'RedHat'
+# - name: Add repo on RedHat-based systems
+#   ansible.builtin.include_tasks:
+#     tasks: fedora.yml
+#   when: ansible_os_family == 'RedHat'
 
-- ansible.builtin.include_tasks:
+- name: Add repo on Debian family systems
+  ansible.builtin.include_tasks:
     tasks: debian.yml
   when: ansible_os_family == 'Debian'
-
-- name: Install Caddy
-  ansible.builtin.package:
-    name: "{{  caddy_package }}"
-    state: "{{ caddy_package_state }}"
-  notify: restart caddy

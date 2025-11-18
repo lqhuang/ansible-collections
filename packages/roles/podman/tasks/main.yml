@@ -1,0 +1,9 @@
+---
+- name: Install podman and related packages
+  ansible.builtin.package:
+    name:
+      - passt
+      - podman
+      - "{{ podman_install_podman_docker | bool | ternary('podman-docker', null) }}"
+      - "{{ podman_install_podman_compose | bool | ternary('podman-compose', null) }}"
+    state: present

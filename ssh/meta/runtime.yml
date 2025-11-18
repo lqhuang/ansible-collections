@@ -1,0 +1,4 @@
+---
+# Reference for Ansible Collection runtime metadata
+# https://docs.ansible.com/projects/ansible/latest/dev_guide/developing_collections_structure.html#runtime-yml
+requires_ansible: ">=2.19"

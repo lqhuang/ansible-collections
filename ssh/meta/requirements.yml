@@ -1,0 +1,6 @@
+---
+# Work as dependency file for ansible-galaxy collection install
+collections:
+  - name: ansible.posix
+  - name: ansible.scm
+  - name: ansible.utils

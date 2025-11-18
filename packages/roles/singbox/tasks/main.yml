@@ -1,9 +1,7 @@
 ---
 - name: Install sing-box package
-  ansible.builtin.apt:
-    package: "{{ singbox_beta | bool | ternary('sing-box-beta', 'sing-box') }}"
-    autoclean: true
-    # clean: true
+  ansible.builtin.package:
+    name: "{{ singbox_beta | bool | ternary('sing-box-beta', 'sing-box') }}"
     state: present
 # - name: Ensure sing-box service state is correct
 #   ansible.builtin.systemd_service:
