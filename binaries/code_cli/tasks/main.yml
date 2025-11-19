@@ -1,0 +1,67 @@
+---
+# - name: Create temporary download directory
+#   ansible.builtin.tempfile:
+#     state: directory
+#     suffix: build
+#   register: _tempdir
+
+# - name: Clean up temporary download directory
+#   ansible.builtin.file:
+#     path: "{{ _tempdir.path }}"
+#     state: absent
+#   when: _tempdir.path is defined
+
+# TODO:
+#
+# 1. check existing installation and version
+# 2. Ignore if already installed
+# 3. Update only when necessary
+
+- name: Dynamically include vars file based on user
+  ansible.builtin.include_vars:
+    file: "{{ ansible_facts['ansible_user_id'] == 'root' | ternary('root.yml', 'user.yml') }}"
+  when: code_cli_install_prefix is not defined
+
+- name: Ensure code-cli install directory exists
+  ansible.builtin.file:
+    path: "{{ (code_cli_install_prefix, 'bin') | path_join }}"
+    state: directory
+    mode: u=rwx,g=rx,o=rx
+
+- name: Register code-cli architecture
+  ansible.builtin.set_fact:
+    cacheable: false
+    code_cli_arch: "{{ 'x64' if ansible_facts['architecture'] == 'x86_64' else 'arm64' }}"
+  when: code_cli_arch is not defined
+
+# example: http://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64
+- name: Download and extract the latest code-cli tarball to target location
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: >-
+      {{
+        (
+          'http://code.visualstudio.com/sha/download?'
+          'build=' ~ (code_cli_insider | bool | ternary('insider', 'stable')),
+          '&os=cli-alpine' ~ code_cli_arch,
+        ) | join('')
+      }}
+    dest: "{{ (code_cli_install_prefix, 'bin', 'code') | path_join }}"
+    mode: u=rwx,g=rx,o=rx
+  when: code_cli_version is not defined or code_cli_version == 'latest'
+
+- name: Download and extract versioned code-cli tarball to target location
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: >-
+      {{
+        (
+          'https://update.code.visualstudio.com',
+          code_cli_version,
+          'cli-alpine-' ~ code_cli_arch,
+          code_cli_insider | bool | ternary('insider', 'stable'),
+        ) | path_join
+      }}
+    dest: "{{ (code_cli_install_prefix, 'bin', 'code') | path_join }}"
+    mode: u=rwx,g=rx,o=rx
+  when: code_cli_version is defined and code_cli_version != 'latest'

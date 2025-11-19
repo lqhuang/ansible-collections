@@ -6,8 +6,6 @@ dependencies:
 
 argument_specs:
   main:
-    author:
-      - Lanqing Huang
     options:
       hashicorp_packages_include:
         type: list

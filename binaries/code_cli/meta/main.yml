@@ -1,0 +1,18 @@
+---
+allow_duplicates: false
+
+argument_specs:
+  main:
+    options:
+      code_cli_insider:
+        type: bool
+        default: false
+      code_cli_update:
+        type: bool
+        default: true
+      code_cli_version:
+        type: str
+        default: "latest"
+      code_cli_install_prefix:
+        type: str
+        default: null

@@ -1,0 +1,18 @@
+---
+- name: Add vs code repository in deb822 format
+  ansible.builtin.deb822_repository:
+    name: vscode
+    state: present
+    enabled: true
+    signed_by: https://packages.microsoft.com/keys/microsoft.asc
+    uris: https://packages.microsoft.com/repos/code
+    types: deb
+    components: main
+    suites: stable
+    architectures: amd64,arm64,armhf
+    allow_insecure: false
+    allow_downgrade_to_insecure: false
+
+- name: Update vs code repository list
+  ansible.builtin.apt:
+    update_cache: true

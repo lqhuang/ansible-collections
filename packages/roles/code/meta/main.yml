@@ -1,0 +1,12 @@
+---
+allow_duplicates: false
+
+dependencies:
+  - lqhuang.pkg_repos.code
+
+argument_specs:
+  main:
+    options:
+      code_insiders:
+        type: bool
+        default: false

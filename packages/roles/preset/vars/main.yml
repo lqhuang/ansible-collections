@@ -1,10 +1,11 @@
-_common:
+_common: # noqa: var-naming[no-role-prefix]
   - apt-transport-https
   - debian-keyring
   - debian-archive-keyring
   - unattended-upgrades
   - lsb-release
-  - gnupg2
+  - gpg
+  - gpg-agent
   - curl
   - wget
 
@@ -14,7 +15,7 @@ _common:
   # testing
   # - apt-listchanges
 
-_default:
+_default: # noqa: var-naming[no-role-prefix]
   - acl
   - knot-dnsutils
   - inetutils-ping # iputils-ping
@@ -41,10 +42,10 @@ _default:
   # - python3
   # - python3-venv
 
-_optimal:
+_optimal: # noqa: var-naming[no-role-prefix]
   - ripgrep
   - fd-find
   - fzf
 
-_tt:
+_dev: # noqa: var-naming[no-role-prefix]
   - binutils

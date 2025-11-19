@@ -1,0 +1,4 @@
+# Work as dependency file for ansible-galaxy collection install
+---
+collections:
+  - name: lqhuang.pkg_repos
