@@ -15,3 +15,6 @@ argument_specs:
         type: list
         elements: str
         default: []
+    mutually_exclusive:
+      - hashicorp_packages_include
+      - hashicorp_packages_exclude

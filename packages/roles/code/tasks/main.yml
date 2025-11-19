@@ -4,10 +4,10 @@
     name: "{{ code_insiders | bool | ternary('code-insiders', 'code') }}"
     clean: true
     state: present
-  when: ansible_facts['os_family'] == 'Debian'
+  when: ansible_facts['pkg_mgr'] == 'apt'
 
 - name: Install code package
   ansible.builtin.package:
     name: "{{ code_insiders | bool | ternary('code-insiders', 'code') }}"
     state: present
-  when: ansible_facts['os_family'] != 'Debian'
+  when: ansible_facts['pkg_mgr'] != 'apt'

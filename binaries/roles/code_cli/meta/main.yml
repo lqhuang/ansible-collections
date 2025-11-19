@@ -12,7 +12,7 @@ argument_specs:
         default: true
       code_cli_version:
         type: str
-        default: "latest"
+        default: latest
       code_cli_install_prefix:
         type: str
         default: null

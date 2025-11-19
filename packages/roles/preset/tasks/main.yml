@@ -1,6 +1,21 @@
 ---
-- name: Ensure apt minimal packages are installed
+- name: Collect packages from preset list
+  ansible.builtin.set_fact:
+    _preset_packages: >-
+      {{
+        lookup('ansible.builtin.vars', '_' + item)
+        | mandatory
+        | union(_preset_packages | default([]))
+      }}
+  loop: "{{ preset_list | union(['common']) }}"
+
+- name: Collect packages from preset list
+  ansible.builtin.debug:
+    msg: "{{ _preset_packages }}"
+
+- name: Ensure preset packages are installed
   ansible.builtin.apt:
-    name: "{{ preset_packages_map[preset_name] }}"
+    name: "{{ _preset_packages | unique }}"
     state: present
-    upgrade: true
+    update_cache: true
+    autoclean: true

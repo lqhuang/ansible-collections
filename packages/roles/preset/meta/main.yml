@@ -1,0 +1,10 @@
+---
+allow_duplicates: true
+argument_specs:
+  main:
+    options:
+      preset_list:
+        type: list
+        elements: str
+        default:
+          - default

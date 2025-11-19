@@ -38,9 +38,7 @@ _default: # noqa: var-naming[no-role-prefix]
   - tmux
   - tree
   - rsync
-
-  # - python3
-  # - python3-venv
+  - make
 
 _optimal: # noqa: var-naming[no-role-prefix]
   - ripgrep
@@ -49,3 +47,9 @@ _optimal: # noqa: var-naming[no-role-prefix]
 
 _dev: # noqa: var-naming[no-role-prefix]
   - binutils
+
+_ansible: # noqa: var-naming[no-role-prefix]
+  - python3
+  - python3-pip
+  - python3-apt
+  - python3-debian

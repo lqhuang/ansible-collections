@@ -19,12 +19,18 @@
 
 - name: Dynamically include vars file based on user
   ansible.builtin.include_vars:
-    file: "{{ ansible_facts['ansible_user_id'] == 'root' | ternary('root.yml', 'user.yml') }}"
+    file: "{{ (ansible_facts['user_id'] == 'root') | ternary('root.yml', 'user.yml') }}"
   when: code_cli_install_prefix is not defined
 
-- name: Ensure code-cli install directory exists
+- name: Register code-cli bin directory # noqa: var-naming[no-role-prefix]
+  ansible.builtin.set_fact:
+    cacheable: false
+    _dest_bin_dir: "{{ (code_cli_install_prefix, 'bin') | path_join }}"
+  when: code_cli_arch is not defined
+
+- name: Ensure code-cli install bin directory exists
   ansible.builtin.file:
-    path: "{{ (code_cli_install_prefix, 'bin') | path_join }}"
+    path: "{{ _dest_bin_dir }}"
     state: directory
     mode: u=rwx,g=rx,o=rx
 
@@ -42,11 +48,11 @@
       {{
         (
           'http://code.visualstudio.com/sha/download?'
-          'build=' ~ (code_cli_insider | bool | ternary('insider', 'stable')),
-          '&os=cli-alpine' ~ code_cli_arch,
+          'build=' + (code_cli_insider | bool | ternary('insider', 'stable')),
+          '&os=cli-alpine-' + code_cli_arch,
         ) | join('')
       }}
-    dest: "{{ (code_cli_install_prefix, 'bin', 'code') | path_join }}"
+    dest: "{{ _dest_bin_dir }}" # extract to bin dir
     mode: u=rwx,g=rx,o=rx
   when: code_cli_version is not defined or code_cli_version == 'latest'
 
@@ -58,10 +64,17 @@
         (
           'https://update.code.visualstudio.com',
           code_cli_version,
-          'cli-alpine-' ~ code_cli_arch,
+          'cli-alpine-' + code_cli_arch,
           code_cli_insider | bool | ternary('insider', 'stable'),
         ) | path_join
       }}
-    dest: "{{ (code_cli_install_prefix, 'bin', 'code') | path_join }}"
+    dest: "{{ _dest_bin_dir }}" # extract to bin dir
     mode: u=rwx,g=rx,o=rx
   when: code_cli_version is defined and code_cli_version != 'latest'
+
+- name: Check code-cli installation and excutable # noqa: var-naming[no-role-prefix]
+  ansible.builtin.command:
+    cmd: "{{ (_dest_bin_dir, 'code') | path_join }} --version"
+  register: _exec_result
+  changed_when: _exec_result.rc == 0
+  failed_when: _exec_result.rc != 0

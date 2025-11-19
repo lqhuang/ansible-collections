@@ -8,7 +8,7 @@
     uris: https://apt.releases.hashicorp.com/
     types: deb
     components: main
-    suites: "*" # "{{ ansible_distribution_release | lower }}"
+    suites: "{{ ansible_distribution_release | lower }}"
     architectures: "{{ dpkg_architecture_map[ansible_architecture] }}"
     allow_insecure: false
     allow_downgrade_to_insecure: false
@@ -19,6 +19,6 @@
       aarch64: arm64
       arm64: arm64
 
-- name: Install HashiCorp packages
+- name: Update HashiCorp repo package list
   ansible.builtin.apt:
     update_cache: true

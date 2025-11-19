@@ -1,2 +1,3 @@
 ---
-preset_name: default
+preset_list:
+  - default
