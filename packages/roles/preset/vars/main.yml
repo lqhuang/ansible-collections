@@ -20,7 +20,6 @@ _default: # noqa: var-naming[no-role-prefix]
   - knot-dnsutils
   - inetutils-ping # iputils-ping
   - bash-completion
-  - sudo
   - apt-file
 
   - zip
@@ -41,6 +40,7 @@ _default: # noqa: var-naming[no-role-prefix]
   - make
 
 _optimal: # noqa: var-naming[no-role-prefix]
+  - sudo
   - ripgrep
   - fd-find
   - fzf
