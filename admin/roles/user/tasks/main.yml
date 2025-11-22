@@ -1,0 +1,40 @@
+---
+# TODO: missing handling for `user_enable_login`
+
+- name: Create new user - {{ user_name | trim }} # noqa: var-naming[no-role-prefix]
+  ansible.builtin.user:
+    name: "{{ user_name | trim }}"
+    create_home: true
+    groups: "{{ user_groups | default(omit) }}"
+    password: "!" # create an account with a locked/disabled password on Linux systems
+    state: present
+  register: _created_user
+
+- name: Vendor SSH authorized keys for user - {{ user_name | trim }}
+  ansible.posix.authorized_key:
+    user: "{{ user_name | trim }}"
+    state: present
+    exclusive: true
+    key: "{{ user_ssh_authorized_keys | map('trim') | join('\n') }}"
+  when:
+    - (user_ssh_authorized_keys | length) > 0
+
+- name: Ensure lingering enabled for user - {{ user_name | trim }}
+  ansible.builtin.command:
+    cmd: loginctl enable-linger {{ user_name | trim }}
+    creates: "{{ ('/var/lib/systemd/linger', user_name | trim) | path_join }}"
+  when:
+    - user_enable_linger is defined and user_enable_linger is true
+# - name: Ensure XDG default directories for user - {{ user_name | trim }}
+#   ansible.builtin.files:
+#     name: |
+#       sudo -u {{ user_name | trim }} \
+#       XDG_CONFIG_HOME=/home/{{ user_name | trim }}/.config \
+#       XDG_DATA_HOME=/home/{{ user_name | trim }}/.local/share \
+#       xdg-user-dirs-update --force
+#   when:
+#     - user_ensure_default_xdg_dirs is defined and user_ensure_default_xdg_dirs is true
+
+# Ref
+# - [XDG Base Directory Specification](https://specifications.freedesktop.org/basedir/latest/)
+# - [XDG Base Directory - ArchWiki](https://wiki.archlinux.org/title/XDG_Base_Directory)

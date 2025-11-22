@@ -1,0 +1,26 @@
+---
+allow_duplicates: true
+
+argument_specs:
+  main:
+    options:
+      user_name:
+        type: str
+        required: true
+      user_groups:
+        type: list
+        elements: str
+        default: []
+      user_ssh_authorized_keys:
+        type: list
+        elements: str
+        default: []
+      user_ssh_key_exclusive:
+        type: bool
+        default: true
+      user_enable_login:
+        type: bool
+        default: true
+      user_enable_linger:
+        type: bool
+        default: true

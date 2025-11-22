@@ -1,0 +1,10 @@
+---
+user_groups: []
+
+user_ssh_authorized_keys: []
+user_ssh_key_exclusive: true
+
+user_enable_login: true
+user_enable_linger: true
+user_ensure_default_xdg_dirs: true
+# user_ensure_default_xdg_vars: true

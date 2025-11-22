@@ -53,3 +53,6 @@ _ansible: # noqa: var-naming[no-role-prefix]
   - python3-pip
   - python3-apt
   - python3-debian
+
+_podman: # noqa: var-naming[no-role-prefix]
+  - podman

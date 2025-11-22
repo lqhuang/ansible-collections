@@ -9,9 +9,9 @@
       }}
   loop: "{{ preset_list | union(['common']) }}"
 
-- name: Collect packages from preset list
-  ansible.builtin.debug:
-    msg: "{{ _preset_packages }}"
+# - name: Collect packages from preset list
+#   ansible.builtin.debug:
+#     msg: "{{ _preset_packages }}"
 
 - name: Ensure preset packages are installed
   ansible.builtin.apt:
