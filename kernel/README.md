@@ -48,3 +48,10 @@
 - `net.ipv4.tcp_notsent_lowat`: 131072
   - Server side can consider setting `tcp_notsent_lowat`
   - This setting can improve interactive latency by optimizing send buffer handling. Note that this kernel setting is useful for HTTP/2 and may be detrimental to other applications, as it applies to all applications on the server.
+
+## Different voices
+
+- `net.ipv4.tcp_syncookies` = 1 / 0
+  - Enable TCP SYN cookies to protect against SYN flood attacks.
+  - Some sources recommend disabling syncookies for performance reasons, but the performance impact is need to be carefully evaluated against the security benefits.
+  - [Improving syncookies - LWN.net](https://lwn.net/Articles/277146/)
