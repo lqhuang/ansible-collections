@@ -1,0 +1,12 @@
+---
+# Reference for Ansible Collection metadata
+# https://docs.ansible.com/projects/ansible/latest/dev_guide/collections_galaxy_meta.html
+namespace: lqhuang
+name: stacks
+version: 0.1.0
+readme: README.md
+authors:
+  - Lanqing Huang <lqhuang@outlook.com>
+description: DevOps and IaC for software stack bundle
+license:
+  - Apache-2.0

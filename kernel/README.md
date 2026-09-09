@@ -9,7 +9,6 @@
 - [sysctl defaults from systemd](https://github.com/systemd/systemd/blob/main/sysctl.d/50-default.conf)
 - [sysctl defaults from debian](https://salsa.debian.org/kernel-team/linux-base/-/blob/debian/latest/sysctl.d/50-default.conf?ref_type=heads)
 - [Linux Tuning | Fasterdata](https://fasterdata.es.net/host-tuning/linux): This page contains a quick reference guide for Linux tuning.
-- [dev-sec/ansible-collection-hardening](https://github.com/dev-sec/ansible-collection-hardening): This Ansible collection provides battle tested hardening for Linux, SSH, nginx, MySQL <http://dev-sec.io/>
 
 ## Different levels
 
