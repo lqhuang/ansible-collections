@@ -1,0 +1,62 @@
+# PostgreSQL 18 server template, e.g. postgresql@main.service.
+# %i is the literal instance name; dashes remain dashes.
+# %E: /etc for system services, $XDG_CONFIG_HOME (default ~/.config) for users.
+# %S: /var/lib for system services, $XDG_STATE_HOME (default ~/.local/state) for users.
+# %t: /run for system services, $XDG_RUNTIME_DIR for users.
+# Defaults to a user service. See README.md for initialization, binary paths,
+# and the User=/Group=/WantedBy= overrides required for a system service.
+
+[Unit]
+Description=PostgreSQL 18 Server Instance %i
+Documentation=man:pg_ctl(1) man:postgres(1)
+AssertPathExists=%E/postgresql/%i/postgresql.conf
+AssertPathExists=%E/postgresql/%i/pg_hba.conf
+AssertPathExists=%E/postgresql/%i/pg_ident.conf
+AssertPathExists=%S/postgresql/%i/18
+RequiresMountsFor="%E/postgresql/%i" "%S/postgresql/%i/18"
+
+# For system services, stop before networking goes down on shutdown.
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=%t/postgresql/%i/18-pg_ctl.pid
+WorkingDirectory=%S/postgresql/18/%i
+RuntimeDirectory=postgresql/%i
+RuntimeDirectoryMode=0700
+UMask=0077
+
+# Keep pg_ctl, postgres, and systemd on the same data directory even if the
+# configuration contains a different data_directory setting.
+ExecStart=/usr/bin/pg_ctl start --pgdata "%S/postgresql/18/%i" --wait --timeout=60 \
+    --options "-c data_directory='%S/postgresql/18/%i'" \
+    --options "-c config_file='%E/postgresql/%i/postgresql.conf'" \
+    --options "-c hba_file='%E/postgresql/%i/pg_hba.conf'" \
+    --options "-c ident_file='%E/postgresql/%i/pg_ident.conf'" \
+    --options "-c unix_socket_directories='%t/postgresql/%i/18'"
+ExecStop=/usr/bin/pg_ctl stop --pgdata "%S/postgresql/18/%i" --mode=fast --wait --timeout=60
+ExecReload=/usr/bin/pg_ctl reload --pgdata "%S/postgresql/18/%i"
+
+# Allow one minute beyond pg_ctl's one-hour wait for it to report failure.
+TimeoutStartSec=120s
+TimeoutStopSec=120s
+KillMode=mixed
+KillSignal=SIGINT
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=postgresql-18@%i
+
+# prevent OOM killer from choosing the postmaster (individual backends will
+# reset the score to 0)
+OOMScoreAdjust=-900
+# restarting automatically will prevent "pg_ctlcluster ... stop" from working,
+# so we disable it here. Also, the postmaster will restart by itself on most
+# problems anyway, so it is questionable if one wants to enable external
+# automatic restarts.
+#Restart=on-failure
+# (This should make pg_ctlcluster stop work, but doesn't:)
+#RestartPreventExitStatus=SIGINT SIGTERM
+
+[Install]
+WantedBy=default.target
+#WantedBy=multi-user.target

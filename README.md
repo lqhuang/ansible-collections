@@ -4,7 +4,7 @@ Every subdir is an Ansible collection.
 
 > [!WARN]
 >
-> Mainly for homelab and simplified workload. Use at your own risk.
+> Mainly for homelab, dev and simplified workload. Use at your own risk.
 
 ## Inspiration
 

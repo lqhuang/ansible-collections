@@ -1,0 +1,4 @@
+#
+# Disable default postgresql.service
+#
+disable postgresql.service
