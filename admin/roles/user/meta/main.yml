@@ -7,6 +7,12 @@ argument_specs:
       user_name:
         type: str
         required: true
+      user_uid:
+        type: int
+        required: false
+      user_gid:
+        type: int
+        required: false
       user_groups:
         type: list
         elements: str

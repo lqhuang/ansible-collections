@@ -1,14 +1,28 @@
 ---
 # TODO: missing handling for `user_enable_login`
 
-- name: Create new user - {{ user_name | trim }} # noqa: var-naming[no-role-prefix]
-  ansible.builtin.user:
-    name: "{{ user_name | trim }}"
-    create_home: true
-    groups: "{{ user_groups | default(omit) }}"
-    password: "!" # create an account with a locked/disabled password on Linux systems
-    state: present
-  register: _created_user
+- name: Create new user and primary group - {{ user_name | trim }} # noqa: var-naming[no-role-prefix]
+  vars:
+    has_valid_uid: "{{ (user_uid | default(0) | int) > 0 }}"
+  block:
+    - name: Ensure primary group exists with matching GID
+      ansible.builtin.group:
+        name: "{{ user_name | trim }}"
+        gid: "{{ user_uid }}"
+        state: present
+      when: has_valid_uid
+      # Only run if user_uid is provided and not empty
+
+    - name: Create new user
+      ansible.builtin.user:
+        name: "{{ user_name | trim }}"
+        uid: "{{ user_uid | default(omit) }}"
+        group: "{{ (user_name | trim) if has_valid_uid else omit }}"
+        groups: "{{ user_groups | default(omit) }}"
+        create_home: true
+        password: "!" # create an account with a locked/disabled password on Linux systems
+        state: present
+      register: _user_created_user
 
 - name: Vendor SSH authorized keys for user - {{ user_name | trim }}
   ansible.posix.authorized_key:

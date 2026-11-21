@@ -8,6 +8,7 @@ _common: # noqa: var-naming[no-role-prefix]
   - gpg-agent
   - curl
   - wget
+  - chrony
 
   # - firmware-misc-nonfree
   # - firmware-linux-nonfree
@@ -30,6 +31,7 @@ _default: # noqa: var-naming[no-role-prefix]
   - bzip2
 
   - sed
+  - jq
   - zsh
   - git
   - htop
@@ -38,12 +40,14 @@ _default: # noqa: var-naming[no-role-prefix]
   - tree
   - rsync
   - make
+  - iperf3
 
 _optimal: # noqa: var-naming[no-role-prefix]
   - sudo
   - ripgrep
   - fd-find
   - fzf
+  - age
 
 _dev: # noqa: var-naming[no-role-prefix]
   - binutils

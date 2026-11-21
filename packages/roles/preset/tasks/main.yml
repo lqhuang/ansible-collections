@@ -17,5 +17,7 @@
   ansible.builtin.apt:
     name: "{{ _preset_packages | unique }}"
     state: present
-    update_cache: true
+    update-cache: true
+    install-recommends: false
+    auto_install_module_deps: true
     autoclean: true
